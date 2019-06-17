@@ -10,13 +10,25 @@
 
 和 koa 基本相同，方法一致。只是增加了 midway 的 ioc 用法，可以自动加载任意目录的 controller 文件。
 
+默认自带了 koa-router，可以沿用 koa 的所有方法和属性。
+
 支持大部分 midway 的装饰器能力。
 
 不支持 @config/@plugin/@logger 这三个 for egg 的装饰器。
 
-目前只支持路由上挂载中间件，不支持全局中间件。
+入口文件写法如下。
 
 ```ts
-const app = new MidwayApplication();
-app.listen(3000);
+// app.ts
+(async () => {
+  // 创建一个 app
+  const app = new MidwayApplication();
+  // 全局中间件
+  app.use(require('koa-static')(root, opts));
+  // ready
+  await app.ready();
+  // 绑定端口
+  app.listen(3000);
+})();
+
 ```
